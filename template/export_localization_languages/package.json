@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "exceljs": "^1.15.0"
+  }
+}
