@@ -9,6 +9,7 @@ import AppNavigation from './src/navigation/AppNavigation';
 import { isIos } from './src/common/Constants';
 import { i18n } from './src/translations/i18n'
 import ToastNormal from './src/components/toast/ToastNormal';
+import LoadingApp from '~/components/Loading/LoadingApp';
 
 
 if (!isIos) {
@@ -58,6 +59,7 @@ export default function App() {
           </Suspense>
         </I18nextProvider>
       </SafeAreaProvider>
+      <LoadingApp />
     </>
   );
 };

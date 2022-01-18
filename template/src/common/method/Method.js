@@ -31,3 +31,6 @@ export const showToast = ({
         showBtnClose: showBtnClose
     })
 }
+export const showLoadingApp = (status = true) => {
+    EventRegister.emitEvent("show_loading_app", status);
+}
