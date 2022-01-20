@@ -35,7 +35,7 @@ export const removeALlWhiteSpace = (value) => {
 };
 
 export const onlyOneSpaceBetweenTwoWords = (value) => {
-    return value.replace(/  +/g, ' ').trim()
+    return value.replace(/ + /g, ' ').trim()
 };
 
 const email_regex = /(^([0-9a-zA-Z]{1,})+\@+([0-9a-zA-Z]{1,})(\.([a-zA-Z]{2,})){1,})+$/gi;

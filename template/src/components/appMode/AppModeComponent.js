@@ -6,7 +6,7 @@ export default function AppModeComponent() {
     return (
         <View pointerEvents={'none'} style={[styles.wrapMode]}>
             <Text adjustsFontSizeToFit={true} style={[styles.textAppMode]}>
-                {AppMode.toUpperCase()}
+                {AppMode.toUpperCase()} MODE
             </Text>
         </View>
     )
