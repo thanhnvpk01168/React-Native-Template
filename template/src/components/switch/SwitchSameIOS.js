@@ -1,12 +1,24 @@
+{/* error - please do not use this component */}
 import React, { memo } from 'react'
 import isEqual from 'react-fast-compare';
-import { Pressable as PressAble } from 'react-native'
-import Animated, { useSharedValue, interpolateColor, useAnimatedStyle, withSpring } from 'react-native-reanimated';
+import { Pressable } from 'react-native'
+import Animated, { useSharedValue, interpolateColor, useAnimatedStyle, withSpring, useDerivedValue } from 'react-native-reanimated';
 
-const PressAbleAnimated = Animated.createAnimatedComponent(PressAble);
+const PressAbleAnimated = Animated.createAnimatedComponent(Pressable);
 
+const useInterpolateColor = (
+    progress,
+    input,
+    output,
+    colorSpace,
+) => {
+    'worklet';
+    return useDerivedValue(() =>
+        interpolateColor(progress.value, input, output, colorSpace),
+    );
+};
 function SwitchSameIOSComponent({
-    trackColor = ["red", "pink"],
+    trackColor = ["red", "green"],
     thumbColor = ["white", "black"],
     styleTrack = {
         width: 50,
@@ -24,26 +36,24 @@ function SwitchSameIOSComponent({
 }) {
     const progress = useSharedValue(0);
 
-    const animatedTrackStyle = useAnimatedStyle(() => {
-        const backgroundColor = interpolateColor(
-            progress.value,
-            [0, 1],
-            trackColor,
-        );
-        return { backgroundColor }
-    });
+    const backgroundThumbColor = useInterpolateColor(
+        progress,
+        [0, 1],
+        thumbColor
+    );
+    const animatedThumbStyle = useAnimatedStyle(() => ({
+        backgroundColor: backgroundThumbColor.value,
+        transform: [{ translateX: (progress.value) * (styleTrack.width - styleTrack.paddingHorizontal * 2 - styleThumb.width) }],
+    }));
 
-    const animatedThumbStyle = useAnimatedStyle(() => {
-        const backgroundColor = interpolateColor(
-            progress.value,
-            [0, 1],
-            thumbColor,
-        );
-        return {
-            backgroundColor,
-            transform: [{ translateX: (progress.value) * (styleTrack.width - styleTrack.paddingHorizontal * 2 - styleThumb.width) }],
-        }
-    });
+    const TrackColor = useInterpolateColor(
+        progress,
+        [0, 1],
+        trackColor
+    );
+    const animatedTrackStyle = useAnimatedStyle(() => ({
+        backgroundColor: TrackColor.value,
+    }));
 
     const _changeStatus = () => {
         if (progress.value <= 0.5) {
