@@ -19,4 +19,8 @@ I. If you use Proguard you will need to add these lines to android/app/proguard-
 3. React Native SVG
 -keep public class com.horcrux.svg.** {*;}
 
+4. If Enabling Hermes
+-keep class com.facebook.hermes.unicode.** { *; }
+-keep class com.facebook.jni.** { *; }
+
 II. 
