@@ -10,46 +10,63 @@
 refModal.current.methodName();(methodName in useImperativeHandle)
 */
 import React, { forwardRef, memo, useImperativeHandle, useCallback } from 'react';
-import { StyleSheet, Pressable } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import isEqual from 'react-fast-compare';
 import { Portal } from '@gorhom/portal';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
-import { deviceH } from '~/common/Constants';
+import Animated, { interpolate, useAnimatedStyle, useDerivedValue, useSharedValue, withSpring } from 'react-native-reanimated';
+import { deviceH, deviceW } from '~/common/Constants';
 
+let maxHeight = deviceH;
 
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+const inputTranslateY = [0, 90];
+const outputTranslateY = [0, maxHeight];
 
-let maxHeight = deviceH + 50;
+const inputOpacity = [0, 90];
+const outputOpacity = [0.6, 0];
+
+const inputTranslateX = [0, 90, 100];
+const outputTranslateX = [0, 0, deviceW];
+
 function ModalComponent({
     children,
     center = true,
     backdropColor = "rgba(1,1,1,0.3)",
     hasBackdrop = true,
-    enableAnimation = true
 }, ref) {
-    const animTranslateYValue = useSharedValue(maxHeight);
+    const progress = useSharedValue(1000);
+    //translate Y
+    const translateYDerived = useDerivedValue(() => {
+        return interpolate(progress.value, inputTranslateY, outputTranslateY, 'clamp');
+    }, []);
     const animTranslateYStyle = useAnimatedStyle(() => {
         return {
             transform: [
-                { translateY: animTranslateYValue.value }
+                { translateY: translateYDerived.value }
             ]
         }
-    })
+    });
+    //translate X  & opacity backdrop
+    const opacityDerived = useDerivedValue(() => {
+        return interpolate(progress.value, inputOpacity, outputOpacity, 'clamp');
+    }, []);
+    const translateXDerived = useDerivedValue(() => {
+        return interpolate(progress.value, inputTranslateX, outputTranslateX, 'clamp');
+    }, []);
+    const animOpacityStyle = useAnimatedStyle(() => {
+        return {
+            backgroundColor: `rgba(1,1,1,${opacityDerived.value})`,
+            transform: [
+                { translateX: translateXDerived.value }
+            ]
+        }
+    });
 
     const _closeModal = useCallback(() => {
-        if (enableAnimation) {
-            animTranslateYValue.value = withSpring(maxHeight, { damping: 50, stiffness: 300 })
-        } else {
-            animTranslateYValue.value = maxHeight;
-        }
+        progress.value = withSpring(100, { damping: 50, stiffness: 300 })
     }, []);
-    
+
     const _openModal = useCallback(() => {
-        if (enableAnimation) {
-            animTranslateYValue.value = withSpring(0, { damping: 50, stiffness: 600 })
-        } else {
-            animTranslateYValue.value = 0;
-        }
+        progress.value = withSpring(0, { damping: 50, stiffness: 600 })
     }, []);
 
     useImperativeHandle(ref, () => ({
@@ -59,27 +76,28 @@ function ModalComponent({
 
     return (
         <Portal>
-            <AnimatedPressable
+            <TouchableWithoutFeedback
                 disabled={!hasBackdrop}
-                onPress={_closeModal}
-                style={[
-                    styles.main,
-                    center ? styles.center : {},
-                    {
-                        backgroundColor: backdropColor
-                    },
-                    animTranslateYStyle
-                ]}>
-                <Pressable>
-                    {children}
-                </Pressable>
-            </AnimatedPressable>
+                onPress={_closeModal}>
+                <Animated.View
+                    style={[
+                        styles.main,
+                        center ? styles.center : {},
+                        animOpacityStyle,
+                    ]}>
+                    <TouchableWithoutFeedback>
+                        <Animated.View style={animTranslateYStyle}>
+                            {children}
+                        </Animated.View>
+                    </TouchableWithoutFeedback>
+                </Animated.View>
+
+            </TouchableWithoutFeedback>
         </Portal>
     )
 }
 
 export const Modal = memo(forwardRef(ModalComponent), isEqual);
-// export default Modal1 = forwardRef(ModalComponent);
 
 const styles = StyleSheet.create({
     main: {
@@ -90,4 +108,3 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     }
 });
-
