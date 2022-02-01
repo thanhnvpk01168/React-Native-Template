@@ -1,5 +1,4 @@
-import React, { memo } from 'react'
-import isEqual from 'react-fast-compare';
+import React from 'react'
 import { Text } from 'react-native'
 
 const TextNormalComponent = ({ children, style }) => {
@@ -9,4 +8,5 @@ const TextNormalComponent = ({ children, style }) => {
         </Text>
     )
 }
-export const TextNormal = memo(TextNormalComponent, isEqual);
+
+export const TextNormal = TextNormalComponent
