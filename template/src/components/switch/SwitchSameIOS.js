@@ -1,4 +1,7 @@
-{/* error - please do not use this component */}
+/**
+ * Example
+<SwitchSameIOS onChange={(e) => { }} />
+ */
 import React, { memo } from 'react'
 import isEqual from 'react-fast-compare';
 import { Pressable } from 'react-native'
