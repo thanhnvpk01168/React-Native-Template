@@ -1,104 +1,90 @@
-import React, { forwardRef, memo, useCallback, useImperativeHandle, useRef, useState, useEffect } from 'react'
-import { Pressable, View } from 'react-native'
+import React, { memo, useCallback, useState } from 'react'
+import { Pressable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import isEqual from 'react-fast-compare'
-import { measure, runOnJS, runOnUI, useAnimatedRef } from 'react-native-reanimated';
+import Animated, { useAnimatedRef } from 'react-native-reanimated';
+import { Portal } from '@gorhom/portal';
 
 import { TextNormal } from '../text/TextNormal';
-import { Modal } from '../modal';
 import { translate } from '~/translations/i18n';
 import { KeyTranslate } from '~/translations/KeyTranslate';
-
-const setLayoutOnUI = (
-    ref,
-    updateFunc,
-) => {
-    'worklet';
-    const { width, height, pageX, pageY } = measure(ref);
-    runOnJS(updateFunc)({ w: width, h: height, x: pageX, y: pageY, s: 1 });
-};
 
 function DropDownComponent({
     placeHolder = translate(KeyTranslate.select_an_item),
     data = [],
-    style = { width: '80%', padding: 5, borderWidth: 0.3, borderColor: 'rgba(1,1,1,0.3)', backgroundColor: 'white' },
+    style = { width: '100%', padding: 5, borderWidth: 0.3, borderColor: 'rgba(1,1,1,0.3)', backgroundColor: 'white' },
     styleDropDown = { backgroundColor: 'white', borderWidth: 0.5 },
-    styleItem = { paddingHorizontal: 5, paddingTop: 2, backgroundColor: 'white' },
+    styleItem = { paddingHorizontal: 5, paddingTop: 4, backgroundColor: 'white' },
     textStyleItem = {},
     onChangeItem = () => { }
 }, ref) {
 
     const _refDrop = useAnimatedRef();
-    const refModal = useRef();
-    const [viewLayout, setViewLayout] = useState({ h: 0, w: 0, x: 0, y: 0, s: null });
     const [selectedValue, setSelectedValue] = useState(null);
     const [dropHeight, setDropHeight] = useState(0);
+    const [detailDrop, setDetailDrop] = useState({ status: false, x: 0, y: 0, width: 0, height: 0, pageX: 0, pageY: 0 });
 
     const _onToggle = useCallback(() => {
-        runOnUI(setLayoutOnUI)(_refDrop, setViewLayout);
-    }, [_refDrop, refModal]);
+        if (_refDrop && _refDrop.current) {
+            _refDrop.current.measure((x, y, width, height, pageX, pageY) => {
+                setDetailDrop({ status: true, x, y, width, height, pageX, pageY })
+            });
+        }
+    }, [_refDrop]);
 
     const _onLayoutDrop = useCallback((e) => {
         const { height: DropH } = e.nativeEvent.layout;
         setDropHeight(DropH);
     }, []);
 
-    useImperativeHandle(ref, () => ({
-        method1: () => { },
-    }));
-
-    useEffect(() => {
-        if (!!refModal?.current && !!viewLayout.s) {
-            setTimeout(() => {
-                refModal.current.openModal();
-            }, 50);
-        }
-    }, [viewLayout]);
-
     return (
-        <View onLayout={_onLayoutDrop} ref={_refDrop} style={[style]}>
-            <Pressable onPress={_onToggle}>
-                <TextNormal style={!!!selectedValue && { color: "gray" }}>{!!selectedValue ? selectedValue.value : placeHolder}</TextNormal>
-            </Pressable>
-
-            <Modal
-                backdropColor={"rgba(55,55,55,0)"}
-                hasBackdrop
-                center={false}
-                enableAnimation={false}
-                ref={refModal}>
-                <View
-                    key={viewLayout}
-                    style={[
-                        styleDropDown,
-                        {
-                            width: viewLayout.w,
-                            transform: [
-                                { translateY: viewLayout.y + dropHeight },
-                                { translateX: viewLayout.x }
-                            ],
-                        }
-                    ]}>
+        <Animated.View onLayout={_onLayoutDrop} ref={_refDrop}>
+            <View style={[style]}>
+                <Pressable onPress={_onToggle}>
+                    <TextNormal style={!!!selectedValue && { color: "gray" }}>{!!selectedValue ? selectedValue.value : placeHolder}</TextNormal>
+                </Pressable>
+                <Portal>
                     {
-                        data.map((e, i) => {
-                            return (
-                                <Pressable
-                                    style={styleItem}
-                                    key={`ItemDropDown${i}`}
-                                    onPress={() => {
-                                        onChangeItem(e);
-                                        setSelectedValue(e);
+                        detailDrop.status &&
+                        <TouchableWithoutFeedback onPress={() => setDetailDrop({ ...detailDrop, status: false })}>
+                            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+                                <TouchableWithoutFeedback>
+                                    <View style={{
+                                        width: detailDrop.width,
+                                        borderWidth: 0.4,
+                                        borderColor: 'gray',
+                                        backgroundColor: 'white',
+                                        paddingBottom: 4,
+                                        transform: [
+                                            { translateX: detailDrop.pageX },
+                                            { translateY: detailDrop.pageY + dropHeight },
+                                        ]
                                     }}>
-                                    <TextNormal style={textStyleItem}>
-                                        {e.label}
-                                    </TextNormal>
-                                </Pressable>
-                            )
-                        })
+                                        {
+                                            data.map((e, i) => {
+                                                return (
+                                                    <TouchableOpacity
+                                                        style={styleItem}
+                                                        key={`ItemDropDown${i}`}
+                                                        onPress={() => {
+                                                            onChangeItem(e);
+                                                            setSelectedValue(e);
+                                                        }}>
+                                                        <TextNormal style={textStyleItem}>
+                                                            {e.label}
+                                                        </TextNormal>
+                                                    </TouchableOpacity>
+                                                )
+                                            })
+                                        }
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            </View>
+                        </TouchableWithoutFeedback>
                     }
-                </View>
-            </Modal>
-        </View>
+                </Portal>
+            </View>
+        </Animated.View>
     )
 }
 
-export default DropDown = memo(forwardRef(DropDownComponent), isEqual)
+export default DropDown = memo(DropDownComponent, isEqual)
