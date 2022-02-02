@@ -9,8 +9,8 @@ import AppNavigation from './src/navigation/AppNavigation';
 import { isIos } from './src/common/Constants';
 import { i18n } from './src/translations/i18n'
 import ToastNormal from './src/components/toast/ToastNormal';
-import LoadingApp from '~/components/Loading/LoadingApp';
 import AppModeComponent from '~/components/appMode/AppModeComponent';
+import LoadingApp from '~/components/loadingApp/LoadingApp';
 
 
 if (!isIos) {

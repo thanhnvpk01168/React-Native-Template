@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { EventRegister } from 'react-native-event-listeners'
 import { deviceH, deviceW } from '~/common/Constants'
-import { showLoadingApp } from '~/common/method/Method';
 
 export default function LoadingApp() {
     const [showLoading, setShowLoading] = useState(false);
