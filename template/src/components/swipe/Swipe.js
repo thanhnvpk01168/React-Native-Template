@@ -75,7 +75,9 @@ export function SwipeItem({
     return (
         <>
             {buttonRight}
-            <PanGestureHandler onGestureEvent={gestureHandler}>
+            <PanGestureHandler
+                activeOffsetX={[-20, 20]}
+                onGestureEvent={gestureHandler}>
                 <Animated.View style={[
                     styleItem,
                     animatedStyle
