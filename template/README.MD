@@ -1,8 +1,9 @@
 # React-Native-Template
 React-Native-Template
 
-I. If you use Proguard you will need to add these lines to android/app/proguard-rules.pro:
-1. FastImage
+#### I. If you use Proguard you will need to add these lines to android/app/proguard-rules.pro:
+###### 1. FastImage
+```shell
 -keep public class com.dylanvann.fastimage.* {*;}
 -keep public class com.dylanvann.fastimage.** {*;}
 -keep public class * implements com.bumptech.glide.module.GlideModule
@@ -11,16 +12,19 @@ I. If you use Proguard you will need to add these lines to android/app/proguard-
   **[] $VALUES;
   public *;
 }
-
-2. Reanimated 2 
+```
+###### 2. Reanimated 2 
+```shell
 -keep class com.swmansion.reanimated.** { *; }
 -keep class com.facebook.react.turbomodule.** { *; }
-
-3. React Native SVG
+```
+###### 3. React Native SVG
+```shell
 -keep public class com.horcrux.svg.** {*;}
-
-4. If Enabling Hermes
+```
+###### 4. If Enabling Hermes
+```shell
 -keep class com.facebook.hermes.unicode.** { *; }
 -keep class com.facebook.jni.** { *; }
-
-II. 
+```
+#### II. 
