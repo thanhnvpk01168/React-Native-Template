@@ -4,7 +4,9 @@ import { EventRegister } from 'react-native-event-listeners'
 import { deviceH, deviceW } from '~/common/Constants'
 
 export default function LoadingApp() {
+
     const [showLoading, setShowLoading] = useState(false);
+    
     useEffect(() => {
         const listEventShowToast = EventRegister.addEventListener("show_loading_app", (status) => {
             setShowLoading(status);
@@ -12,8 +14,8 @@ export default function LoadingApp() {
         return () => {
             EventRegister.removeEventListener(listEventShowToast);
         }
-    }, [])
-    console.log(showLoading)
+    }, []);
+
     return (
         showLoading ?
             <View style={styles.main}>

@@ -51,12 +51,10 @@ module.exports = {
         return password;
     },
     base64_decode: function(base64str, file) {
-        //console.log('base64_decode', base64str, file);
         // create buffer object from base64 encoded string, it is important to tell the constructor that the string is base64 encoded
         var bitmap = new Buffer(base64str, 'base64');
         // write buffer to file
         fs.writeFileSync(file, bitmap);
-        //console.log('******** File created from base64 encoded string ********');
     },
     isImageBase64: function(string){
         return typeof string == 'string' && string.length > 0 && (string.indexOf('data:image/png;base64,') == 0 ||
@@ -97,7 +95,6 @@ module.exports = {
     },
     resizeImageFile: function(file, imagesfolder, imageThumbsfolder, width){
         var def = deferred();
-        // console.log('resizeImageFile', file, imagesfolder, imageThumbsfolder, width);
         var ext = path.extname(file).replace('.', '');
         var basename = path.basename(file, '.'+ext);
         
@@ -107,7 +104,6 @@ module.exports = {
                 
             im.identify(srcPath, function(err, features){
                 if (err) throw err;
-                // console.log(features);
                 // { format: 'JPEG', width: 3904, height: 2622, depth: 8 }
                 
                 var dstPath = imageThumbsfolder+basename+'-'+width+'.'+ext;
@@ -119,11 +115,9 @@ module.exports = {
                         format: ext,
                         }, function(err, stdout, stderr){
                             if (err) console.log(err, stdout, stderr);
-                            // console.log('resized '+imagesfolder+' to fit within '+width);
                             def.resolve(true);
                         });
                 }else{
-                    // console.log('copy file', srcPath);
                     fs.createReadStream(srcPath).pipe(fs.createWriteStream(dstPath));
                     def.resolve(true);
                 }

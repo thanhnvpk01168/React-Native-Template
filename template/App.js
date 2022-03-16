@@ -16,7 +16,6 @@ import LoadingApp from '~/components/loadingApp/LoadingApp';
 if (!isIos) {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
-    console.log("UIManager.setLayoutAnimationEnabledExperimental");
   }
 }
 

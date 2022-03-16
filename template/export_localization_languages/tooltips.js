@@ -5,12 +5,10 @@ module.exports = function (output_folder, data, languages) {
     try{
     fs.unlinkSync(output_folder);
     }catch(e){
-        // console.log(e);
     }
     try{
     fs.mkdirSync(output_folder);
     }catch(e){
-        // console.log(e);
     }
 
     function create_folder_language(language){
@@ -18,7 +16,6 @@ module.exports = function (output_folder, data, languages) {
         try{
             fs.mkdirSync(folder_language);
         }catch(e){
-            // console.log(e);
         }
         var tooltips = {};
         for(var j = 0; j < data.length;++j){

@@ -5,12 +5,10 @@ module.exports = function (output_folder, datas, languages, headers = "\n", key_
     try {
         fs.unlinkSync(output_folder);
     } catch (e) {
-        // console.log(e);
     }
     try {
         fs.mkdirSync(output_folder);
     } catch (e) {
-        // console.log(e);
     }
 
     function create_folder_language_ios(language, file_name) {
@@ -72,7 +70,6 @@ module.exports = function (output_folder, datas, languages, headers = "\n", key_
                     text = text.result
                 }
 
-                // console.log('text', text);
 
                 text = utils.str_replace("&amp;", "&", text);
                 text = utils.str_replace("'", "\\'", text);
@@ -86,7 +83,6 @@ module.exports = function (output_folder, datas, languages, headers = "\n", key_
         content_file += "\n};\n\n";
 
         fs.writeFileSync(output_folder + "/KeyTranslate.js", content_file, { encoding: "utf8" })
-        // console.log("Save ok i18n.js LOCALIZED KEYS: ");
     }
 
 
