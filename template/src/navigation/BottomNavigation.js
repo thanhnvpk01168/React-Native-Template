@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
+import { Pressable as PressAble, StyleSheet, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import isEqual from 'react-fast-compare';
 
 import ProfileScreen from '../pages/profile/ProfileScreen';
 import { deviceW } from '~/common/Constants';
-import { Pressable as PressAble, StyleSheet, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TextNormal } from '~/components/text/TextNormal';
 import HomeScreen from '~/pages/home/HomeScreen';
 import { translate } from '~/translations/i18n';
 import { KeyTranslate } from '~/translations/KeyTranslate';
 import { EventRegister } from 'react-native-event-listeners';
 
-const BuildNavBottom = ({ navigation }) => {
+const BuildNavBottom = memo(({ navigation }) => {
   const insets = useSafeAreaInsets();
   const [tabSelected, setTabSelected] = useState(1)
   _navigate = (screenName, tabNumber) => {
@@ -51,30 +52,36 @@ const BuildNavBottom = ({ navigation }) => {
 
     </View>
   )
-}
+}, isEqual);
 
 const Tab = createBottomTabNavigator();
+const TabNavigator = memo(() => {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        lazy: true,
+        headerShown: false,
+        showLabel: false,
+        activeTintColor: 'green',
+        inactiveTintColor: 'gray',
+        labelStyle: {
+          fontSize: 14,
+        },
+        // tabBarHideOnKeyboard: true,
+        tabBarStyle: { position: 'absolute', borderWidth: 10, bottom: -200 }
+      }}>
+
+      <Tab.Screen name="HomeScreen" component={HomeScreen} />
+      <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
+
+    </Tab.Navigator>
+  )
+}, isEqual);
+
 export default function BottomNavigation({ navigation }) {
   return (
     <>
-      <Tab.Navigator
-        screenOptions={{
-          lazy: true,
-          headerShown: false,
-          showLabel: false,
-          activeTintColor: 'green',
-          inactiveTintColor: 'gray',
-          labelStyle: {
-            fontSize: 14,
-          },
-          // tabBarHideOnKeyboard: true,
-          tabBarStyle: { position: 'absolute', borderWidth: 10, bottom: -200 }
-        }}>
-
-        <Tab.Screen name="HomeScreen" component={HomeScreen} />
-        <Tab.Screen name="ProfileScreen" component={ProfileScreen} />
-
-      </Tab.Navigator>
+      <TabNavigator />
       <BuildNavBottom navigation={navigation} />
     </>
   );
@@ -88,13 +95,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    borderTopWidth:1,
-    borderColor:'rgba(1,1,1,0.1)'
+    borderTopWidth: 1,
+    borderColor: 'rgba(1,1,1,0.1)'
   },
   tab: {
     flex: 1,
-    justifyContent:'center',
-    alignItems:'center',
-    height:50
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 50
   }
 })
