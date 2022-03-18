@@ -2,6 +2,10 @@
 React-Native-Template
 
 #### I. If you use Proguard you will need to add these lines to android/app/proguard-rules.pro:
+```shell
+-keep class com.facebook.hermes.unicode.** { *; }
+-keep class com.facebook.jni.** { *; }
+```
 ###### 1. FastImage
 ```shell
 -keep public class com.dylanvann.fastimage.* {*;}
