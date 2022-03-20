@@ -29,8 +29,8 @@ export const authFb = async (data) => {
         endpoint: ApiConstants.AUTH_FB,
         headers,
         data: JSON.stringify({
-            access_token: "EAAIsZAmUAJBgBADkTgqXqSxkSR5Gleo8VkEZCZBodX3w6BNxJidLxZAeFivZCwqciJHbKNqFbuwQBSJubX5ja3snkcZAmmAYbpdpQSz1rChDLcDMmgT1wfWEKyle4iDCdD7mnoeRdQCaFjMKaqj70kdYhZC2ZBUFySMuq7ZCiMyWoMZAgKZBwCTnDik1gfeV0mJQSZBSvO52GxgkTNozTgOHsFx9BZAPefZBmJKufKL2dYtZC5PGAZDZD",
-            code:"611768246215704"
+            access_token: "token",
+            code:"123123123"
         })
     };
     let resp = await callApi("post", config);
