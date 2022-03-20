@@ -33,4 +33,5 @@ export const ApiError = {
 };
 export const ApiConstants = {
   VERIFY_OTP: 'STG/api/verifyotp',
+  AUTH_FB: 'auth/facebook/'
 };

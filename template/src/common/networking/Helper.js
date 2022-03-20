@@ -34,13 +34,11 @@ export const callApi = async (method, config, checkLogoutRequired = true) => {
     }
     config.method = method;
     config.headers = headers;
-    config.url = `${SERVER_URL + config.url}`
-
+    config.withCredentials = false
+    config.url = `${SERVER_URL + config.endpoint}`
     try {
         //  SUCCESS
         let resp = await axios(config);
-        //console.log(`resp---> api---> ${config.url}`);
-        //console.log(`data--->: `, resp);
         return awaitLogout ? { status: false, isCancel: true, showAlert: false } : { status: true, resp: resp, isCancel: false }
     } catch (error) {
         //  ERROR
@@ -71,7 +69,6 @@ export const callApi = async (method, config, checkLogoutRequired = true) => {
                     return awaitLogout ? { status: false, isCancel: true, showAlert: false } : respCallback;
                 } else {
                     //logout
-                    alert("vvv")
                     isLogoutApp.status = true;
                     return { status: false, isCancel: true, showAlert: false }
                 }
