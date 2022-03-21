@@ -5,6 +5,7 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint .",
+    "rn_link": "npx react-native link",
     "postinstall": "npx jetify",
     "clean-android": "cd android && ./gradlew clean && cd ..",
     "clean-ios": "cd ios && xcodebuild clean && cd ..",
