@@ -11,6 +11,8 @@ import { i18n } from './src/translations/i18n'
 import ToastNormal from './src/components/toast/ToastNormal';
 import AppModeComponent from '~/components/appMode/AppModeComponent';
 import LoadingApp from '~/components/loadingApp/LoadingApp';
+import { Provider } from 'react-redux';
+import store from '~/store/store';
 
 
 if (!isIos) {
@@ -50,14 +52,16 @@ export default function App() {
         // 'dark-content' or 'light-content'
         barStyle={"dark-content"} />
       <SafeAreaProvider>
-        <I18nextProvider i18n={i18n}>
-          <Suspense fallback={null}>
-            <PortalProvider>
-              <AppNavigation />
-              <ToastNormal />
-            </PortalProvider>
-          </Suspense>
-        </I18nextProvider>
+        <Provider store={store}>
+          <I18nextProvider i18n={i18n}>
+            <Suspense fallback={null}>
+              <PortalProvider>
+                <AppNavigation />
+                <ToastNormal />
+              </PortalProvider>
+            </Suspense>
+          </I18nextProvider>
+        </Provider>
       </SafeAreaProvider>
       <AppModeComponent/>
       <LoadingApp />

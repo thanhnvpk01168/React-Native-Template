@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
+import isEqual from "react-fast-compare";
 import { Dimensions } from "react-native";
+import { useSelector as useReduxSelector } from 'react-redux';
+
 import { deviceH, deviceW, isIos } from "../Constants";
 import { getWindowHeightAndroid } from "../nativeModule";
 
@@ -21,4 +24,8 @@ export function useWindowDimensions() {
     }, []);
 
     return windowDimensions;
+}
+
+export function useSelector(selector = () => { }) {
+    return useReduxSelector(selector, isEqual);
 }
