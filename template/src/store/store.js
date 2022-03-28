@@ -5,6 +5,7 @@ export const decrement = createAction('decrement');
 export const incrementByAmount = createAction('incrementByAmount');
 
 const initialState = {
+    theme:"default",
     value: 0,
     userInfo: {
         id: 1,
