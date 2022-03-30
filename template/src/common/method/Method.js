@@ -12,9 +12,8 @@ export const restartApp = () => {
     RNRestart.Restart();
 };
 
-export const changeLanguageApp = (langague) => {
-    setItemStorageMMKV(KeyStorage.lngI18n, langague);
-    RNRestart.Restart();
+export const changeLanguageApp = (language) => {
+    setItemStorageMMKV(KeyStorage.lngI18n, language);
 };
 
 export const showToast = ({
