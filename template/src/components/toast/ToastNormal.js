@@ -14,7 +14,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SvgComponent } from '~/assets/svgIcon';
 
 import { SvgIcon } from '../svgIcon/SvgIconComponent';
-import { TextNormal } from '../text/TextNormal';
+import { Text } from '../text';
 
 let totalForceUpdate = 1;
 let timeOut = null;
@@ -91,9 +91,9 @@ export default function ToastNormal() {
                     borderColor: 'rgba(196, 196, 196,.2)'
                 }
             ]}>
-            <TextNormal style={content?.style || {}}>
+            <Text style={content?.style || {}}>
                 {content?.msg}
-            </TextNormal>
+            </Text>
             {
                 btnClose.visible &&
                 <View style={[styles.btnClose, styles.shadow]}>

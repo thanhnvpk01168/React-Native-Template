@@ -6,7 +6,7 @@ const refActionSheet = useRef();
         <TouchableOpacity onPress={() => {
             refActionSheet.current?.close();
         }}>
-            <TextNormal>test</TextNormal>
+            <Text>test</Text>
         </TouchableOpacity>
     </View>
 </ActionSheet>

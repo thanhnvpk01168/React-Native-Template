@@ -4,7 +4,7 @@ import isEqual from 'react-fast-compare';
 import { TouchableOpacity } from 'react-native';
 import Animated, { interpolate, useAnimatedRef, useAnimatedStyle, useDerivedValue, useSharedValue, withSpring } from 'react-native-reanimated';
 import { deviceW } from '~/common/Constants';
-import { TextNormal } from '~/components/text/TextNormal';
+import { Text } from '~/components/text';
 
 let whHole = 100;
 const ItemComponent = ({ item, index }) => {
@@ -71,14 +71,14 @@ export default function FlyTo() {
                 style={{ width: 88, height: 88, borderRadius: 50, borderWidth: 2, borderColor: 'red', justifyContent: 'center', alignItems: 'center' }}
                 activeOpacity={1}
                 onPress={_onToggle}>
-                <TextNormal>
+                <Text>
                     Fire
-                </TextNormal>
+                </Text>
             </TouchableOpacity>
             {
                 arrItem.map((e, i) => {
                     return (
-                        <Item item={e} index={i} />
+                        <Item key={`itemInfLy${i}`} item={e} index={i} />
                     )
                 })
             }

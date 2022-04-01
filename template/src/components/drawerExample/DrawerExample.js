@@ -1,10 +1,10 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import React, { useRef } from 'react'
 import { DrawerLayout } from 'react-native-gesture-handler';
 import LazyImage from '../image/LazyImage';
 import { deviceH, deviceW } from '~/common/Constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { TextNormal } from '../text/TextNormal';
+import { Text } from '../text';
 
 const drawerWidth = deviceW * 0.7;
 export default function DrawerExample() {
@@ -42,7 +42,7 @@ export default function DrawerExample() {
                     </View>
                     <TouchableOpacity onPress={() => refDrawer.current.openDrawer()}>
                         <View style={{ width: 100, height: 100, borderRadius: 50, borderWidth: 5, borderColor: 'red', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }} >
-                            <TextNormal>Open drawer</TextNormal>
+                            <Text>Open drawer</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

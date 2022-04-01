@@ -5,7 +5,7 @@ const width = deviceW - 10;
     <SwipeItem
         buttonRight={
             <View style={{ width: 250, height: 100, borderWidth: 1, position: 'absolute', right: 0 }}>
-                <TextNormal>buttonRight</TextNormal>
+                <Text>buttonRight</Text>
             </View>
         }
         maxWidthButtonRight={250}
@@ -15,7 +15,7 @@ const width = deviceW - 10;
             height: 100,
         }}
     >
-        <TextNormal>Item 1</TextNormal>
+        <Text>Item 1</Text>
     </SwipeItem>
 </View>
  */
@@ -25,7 +25,7 @@ import Animated, { useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, 
 import { PanGestureHandler } from 'react-native-gesture-handler';
 
 import { deviceW } from '~/common/Constants';
-import { TextNormal } from '../text/TextNormal';
+import { Text } from '../text';
 
 export function SwipeItem({
     styleItem = {
@@ -40,7 +40,7 @@ export function SwipeItem({
             <TouchableOpacity onPress={() => {
                 alert("Delete");
             }}>
-                <TextNormal>Delete</TextNormal>
+                <Text>Delete</Text>
             </TouchableOpacity>
         </View>
     ),

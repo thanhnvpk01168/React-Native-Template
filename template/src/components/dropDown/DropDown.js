@@ -4,9 +4,9 @@ import isEqual from 'react-fast-compare'
 import Animated, { useAnimatedRef } from 'react-native-reanimated';
 import { Portal } from '@gorhom/portal';
 
-import { TextNormal } from '../text/TextNormal';
 import { translate } from '~/translations/i18n';
 import { KeyTranslate } from '~/translations/KeyTranslate';
+import { Text } from '../text';
 
 function DropDownComponent({
     placeHolder = translate(KeyTranslate.select_an_item),
@@ -40,7 +40,7 @@ function DropDownComponent({
         <Animated.View onLayout={_onLayoutDrop} ref={_refDrop}>
             <View style={[style]}>
                 <Pressable onPress={_onToggle}>
-                    <TextNormal style={!!!selectedValue && { color: "gray" }}>{!!selectedValue ? selectedValue.value : placeHolder}</TextNormal>
+                    <Text style={!!!selectedValue && { color: "gray" }}>{!!selectedValue ? selectedValue.value : placeHolder}</Text>
                 </Pressable>
                 <Portal>
                     {
@@ -69,9 +69,9 @@ function DropDownComponent({
                                                             onChangeItem(e);
                                                             setSelectedValue(e);
                                                         }}>
-                                                        <TextNormal style={textStyleItem}>
+                                                        <Text style={textStyleItem}>
                                                             {e.label}
-                                                        </TextNormal>
+                                                        </Text>
                                                     </TouchableOpacity>
                                                 )
                                             })

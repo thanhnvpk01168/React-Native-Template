@@ -6,11 +6,10 @@ import isEqual from 'react-fast-compare';
 
 import ProfileScreen from '../pages/profile/ProfileScreen';
 import { deviceW } from '~/common/Constants';
-import { TextNormal } from '~/components/text/TextNormal';
 import HomeScreen from '~/pages/home/HomeScreen';
-import { translate } from '~/translations/i18n';
 import { KeyTranslate } from '~/translations/KeyTranslate';
 import { EventRegister } from 'react-native-event-listeners';
+import { Text, TextTranslate } from '~/components/text';
 
 const BuildNavBottom = memo(({ navigation }) => {
   const insets = useSafeAreaInsets();
@@ -35,9 +34,9 @@ const BuildNavBottom = memo(({ navigation }) => {
         onPress={() => {
           _navigate("HomeScreen", 1);
         }}>
-        <TextNormal style={tabSelected == 1 && { color: 'green' }}>
-          {translate(KeyTranslate.home)}
-        </TextNormal>
+        <TextTranslate style={tabSelected == 1 && { color: 'green' }}>
+          {KeyTranslate.home}
+        </TextTranslate>
       </PressAble>
 
       <PressAble
@@ -45,9 +44,9 @@ const BuildNavBottom = memo(({ navigation }) => {
         onPress={() => {
           _navigate("ProfileScreen", 2);
         }}>
-        <TextNormal style={tabSelected == 2 && { color: 'green' }}>
-          {translate(KeyTranslate.profile)}
-        </TextNormal>
+        <Text style={tabSelected == 2 && { color: 'green' }}>
+          {KeyTranslate.profile}
+        </Text>
       </PressAble>
 
     </View>

@@ -10,7 +10,7 @@ import { Pressable, StyleSheet, TextInput, View } from 'react-native'
 import isEqual from 'react-fast-compare';
 
 import { deviceW } from '~/common/Constants';
-import { TextNormal } from '../text/TextNormal';
+import { Text } from '../text';
 
 const maxHeightOTP = 100;
 const paddingHorizontal = 20;
@@ -98,11 +98,11 @@ function OTPComponent({
                                         borderColor: isFocused ? otpInValid.status ? 'red' : i < otp.length ? "green" : i === otp.length ? "blue" : "gray" : otpInValid.status ? 'red' : "gray"
                                     }
                                 ]}>
-                                <TextNormal>
+                                <Text>
                                     {
                                         i <= otp.length - 1 ? otp.charAt(i) : ''
                                     }
-                                </TextNormal>
+                                </Text>
                             </Pressable>
                         )
                     })
@@ -111,9 +111,9 @@ function OTPComponent({
             </View>
             {
                 otpInValid.status &&
-                <TextNormal style={{ color: 'red', fontSize: 20, textAlign: 'center', marginTop: 10 }}>
+                <Text style={{ color: 'red', fontSize: 20, textAlign: 'center', marginTop: 10 }}>
                     {otpInValid.msg}
-                </TextNormal>
+                </Text>
             }
         </>
     )

@@ -1,6 +1,7 @@
 import { Portal } from '@gorhom/portal';
 import React, { useEffect, useRef } from 'react';
-import { BackHandler, Image, Pressable as PressAble, ScrollView, StyleSheet, Text, TextInput, View } from "react-native"
+import { useTranslation } from 'react-i18next';
+import { BackHandler, Image, Pressable as PressAble, ScrollView, StyleSheet, TextInput, View } from "react-native"
 import { EventRegister } from 'react-native-event-listeners';
 import { useSharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -12,7 +13,7 @@ import LazyImage from '~/components/image/LazyImage';
 import { Modal } from '~/components/modal';
 import OTP from '~/components/otp/OTP';
 import { SwitchSameIOS } from '~/components/switch';
-import { TextNormal } from '~/components/text/TextNormal';
+import { Text } from '~/components/text';
 import { translate } from '~/translations/i18n';
 import { KeyTranslate } from '~/translations/KeyTranslate';
 import FlyTo from './FlyTo';
@@ -20,6 +21,7 @@ import FlyTo from './FlyTo';
 
 export default function ProfileScreen({ navigation }) {
     const insets = useSafeAreaInsets();
+    const { i18n } = useTranslation();
 
     const toastContent = useSharedValue("empty");
 
@@ -64,9 +66,9 @@ export default function ProfileScreen({ navigation }) {
             <ScrollView style={{ flex: 1, marginBottom: 55 + insets.bottom, paddingTop: deviceH / 6 }}>
 
                 <View style={{ marginTop: 10, paddingHorizontal: 10 }}>
-                    <TextNormal>{translate(KeyTranslate.dropdown)}</TextNormal>
+                    <Text>{translate(KeyTranslate.dropdown)}</Text>
                     <DropDown
-                        ref={refDrop}
+                        // ref={refDrop}
                         data={[
                             { label: 'English', value: "en" },
                             { label: 'France', value: "fr" },
@@ -74,17 +76,18 @@ export default function ProfileScreen({ navigation }) {
                         ]}
                         onChangeItem={(e) => {
                             changeLanguageApp(e.value);
+                            i18n.changeLanguage(e.value);
                         }}
                     />
                 </View>
-                <TextNormal style={{ marginTop: 30, paddingHorizontal: 10 }}>OTP</TextNormal>
+                <Text style={{ marginTop: 30, paddingHorizontal: 10 }}>OTP</Text>
                 <OTP ref={refOTP} length={6} setOTPValid={() => { }} />
                 <PressAble
                     style={{ alignSelf: 'center', backgroundColor: 'green', paddingHorizontal: 10, paddingVertical: 5, marginTop: 10, borderRadius: 5 }}
                     onPress={() => {
                         refOTP.current.showOtpInValid("error test 1");
                     }}>
-                    <TextNormal style={{ color: 'white' }}>{translate(KeyTranslate.submit)}</TextNormal>
+                    <Text style={{ color: 'white' }}>{translate(KeyTranslate.submit)}</Text>
                 </PressAble>
 
                 <PressAble
@@ -92,7 +95,7 @@ export default function ProfileScreen({ navigation }) {
                     onPress={() => {
                         refModal.current.openModal()
                     }}>
-                    <TextNormal style={{ color: 'white' }}>{translate(KeyTranslate.open_modal)}</TextNormal>
+                    <Text style={{ color: 'white' }}>{translate(KeyTranslate.open_modal)}</Text>
                 </PressAble>
                 <TextInput
                     onChangeText={(text) => {
@@ -112,7 +115,7 @@ export default function ProfileScreen({ navigation }) {
                             showBtnClose: false,
                         })
                     }}>
-                    <TextNormal style={{ color: 'white' }}>{translate(KeyTranslate.show_toast)}</TextNormal>
+                    <Text style={{ color: 'white' }}>{translate(KeyTranslate.show_toast)}</Text>
                 </PressAble>
                 <PressAble
                     style={{ alignSelf: 'center', backgroundColor: 'green', paddingHorizontal: 10, paddingVertical: 5, marginTop: 10, borderRadius: 5 }}
@@ -124,7 +127,7 @@ export default function ProfileScreen({ navigation }) {
                             showBtnClose: true,
                         })
                     }}>
-                    <TextNormal style={{ color: 'white' }}>{translate(KeyTranslate.show_toast_with_close_button)}</TextNormal>
+                    <Text style={{ color: 'white' }}>{translate(KeyTranslate.show_toast_with_close_button)}</Text>
                 </PressAble>
                 <View style={{ width: deviceW, justifyContent: 'center', alignItems: 'center',marginVertical:30 }}>
                     <SwitchSameIOS
