@@ -6,16 +6,16 @@ import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
-
 import org.devio.rn.splashscreen.SplashScreen;
 
 public class MainActivity extends ReactActivity {
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    setTheme(R.style.AppTheme); // Now set the theme from Splash to App before setContentView
-    setContentView(R.layout.launch_screen); // Then inflate the new view
-    SplashScreen.show(this); // Now show the splash screen. Hide it later in JS
-    super.onCreate(savedInstanceState);
+    setContentView(R.layout.launch_screen);
+//    setTheme(R.style.AppTheme);
+    SplashScreen.show(this,R.style.SplashScreen_SplashAnimation,true);
+    super.onCreate(null);
   }
 
   /**
@@ -26,13 +26,32 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "ProjectName";
   }
+
+  /**
+   * Returns the instance of the {@link ReactActivityDelegate}. There the RootView is created and
+   * you can specify the rendered you wish to use (Fabric or the older renderer).
+   */
   @Override
   protected ReactActivityDelegate createReactActivityDelegate() {
-    return new ReactActivityDelegate(this, getMainComponentName()) {
+    return new MainActivityDelegate(this, getMainComponentName()){
       @Override
       protected ReactRootView createRootView() {
         return new RNGestureHandlerEnabledRootView(MainActivity.this);
       }
     };
+  }
+
+  public static class MainActivityDelegate extends ReactActivityDelegate {
+    public MainActivityDelegate(ReactActivity activity, String mainComponentName) {
+      super(activity, mainComponentName);
+    }
+
+    @Override
+    protected ReactRootView createRootView() {
+      ReactRootView reactRootView = new ReactRootView(getContext());
+      // If you opted-in for the New Architecture, we enable the Fabric Renderer.
+      reactRootView.setIsFabric(BuildConfig.IS_NEW_ARCHITECTURE_ENABLED);
+      return reactRootView;
+    }
   }
 }

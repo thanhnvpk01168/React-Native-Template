@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
@@ -12,31 +12,31 @@
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" image="Logo3" translatesAutoresizingMaskIntoConstraints="NO" id="oGH-yV-V9X">
-                                <rect key="frame" x="137.5" y="283.5" width="100" height="100"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashFull" translatesAutoresizingMaskIntoConstraints="NO" id="2OS-Aq-Avu">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="DPN-qH-2dY"/>
-                                    <constraint firstAttribute="width" constant="100" id="Kid-89-sOI"/>
-                                    <constraint firstAttribute="width" secondItem="oGH-yV-V9X" secondAttribute="height" multiplier="1:1" id="swp-sQ-Rhu"/>
+                                    <constraint firstAttribute="width" secondItem="2OS-Aq-Avu" secondAttribute="height" multiplier="207:448" id="hXa-o5-0lb"/>
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.39774372314017992" blue="1" alpha="0.097755899234693883" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="oGH-yV-V9X" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="0VV-vI-YAn"/>
-                            <constraint firstItem="oGH-yV-V9X" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="fyY-UZ-GLp"/>
+                            <constraint firstItem="2OS-Aq-Avu" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Edb-lf-eTv"/>
+                            <constraint firstItem="2OS-Aq-Avu" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="o4R-K4-U5F"/>
+                            <constraint firstAttribute="bottom" secondItem="2OS-Aq-Avu" secondAttribute="bottom" id="uMK-vW-Rgx"/>
+                            <constraint firstAttribute="trailing" secondItem="2OS-Aq-Avu" secondAttribute="trailing" id="wed-O0-o2I"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+            <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
     <resources>
-        <image name="Logo3" width="300" height="300"/>
+        <image name="SplashFull" width="1125" height="2436"/>
     </resources>
 </document>

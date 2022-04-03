@@ -1,7 +1,7 @@
 import { Portal } from '@gorhom/portal'
 import React, { memo, useEffect, useState } from 'react'
 import isEqual from 'react-fast-compare';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Pressable } from 'react-native';
 import Animated, { interpolate, useAnimatedRef, useAnimatedStyle, useDerivedValue, useSharedValue, withSpring } from 'react-native-reanimated';
 import { deviceW } from '~/common/Constants';
 import { Text } from '~/components/text';
@@ -41,6 +41,7 @@ const ItemComponent = ({ item, index }) => {
     return (
         <Portal>
             <Animated.View
+                pointerEvents={'none'}
                 key={`CItem${index}`}
                 style={[
                     { position: 'absolute', top: item.y, left: item.x, width: 50, height: 50, borderRadius: 25, backgroundColor: 'brown' },
@@ -67,14 +68,14 @@ export default function FlyTo() {
         <Animated.View
             ref={_refDrop}
             style={{ width: 100, height: 100, justifyContent: 'center', alignItems: 'center', alignSelf: 'center' }}>
-            <TouchableOpacity
+            <Pressable
                 style={{ width: 88, height: 88, borderRadius: 50, borderWidth: 2, borderColor: 'red', justifyContent: 'center', alignItems: 'center' }}
                 activeOpacity={1}
                 onPress={_onToggle}>
                 <Text>
                     Fire
                 </Text>
-            </TouchableOpacity>
+            </Pressable>
             {
                 arrItem.map((e, i) => {
                     return (

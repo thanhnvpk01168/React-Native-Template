@@ -7,7 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '../text';
 
 const drawerWidth = deviceW * 0.7;
-export default function DrawerExample() {
+export default function DrawerExample({ navigation }) {
     const insets = useSafeAreaInsets();
     const refDrawer = useRef();
 
@@ -43,6 +43,11 @@ export default function DrawerExample() {
                     <TouchableOpacity onPress={() => refDrawer.current.openDrawer()}>
                         <View style={{ width: 100, height: 100, borderRadius: 50, borderWidth: 5, borderColor: 'red', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }} >
                             <Text>Open drawer</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <View style={{ width: 55, height: 55, borderRadius: 50, borderWidth: 5, borderColor: 'red', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }} >
+                            <Text style={{ textAlign: 'center' }}>go back</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

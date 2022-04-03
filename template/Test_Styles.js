@@ -1,11 +1,6 @@
 import { StyleSheet } from 'react-native'
-
-const styles = StyleSheet.create({
-  main: {
-    // ----------------//
-
-    
-
-    // ----------------//
-  }
+const style = StyleSheet.create({
+    main: {
+        
+    }
 })

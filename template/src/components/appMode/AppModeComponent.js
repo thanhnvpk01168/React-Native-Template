@@ -1,11 +1,12 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { AppMode } from '~/common/ConfigApp'
+import { Text } from '../text'
 
 export default function AppModeComponent() {
     return (
         <View pointerEvents={'none'} style={[styles.wrapMode]}>
-            <Text adjustsFontSizeToFit={true} style={[styles.textAppMode]}>
+            <Text style={[styles.textAppMode]}>
                 {AppMode.toUpperCase()} MODE
             </Text>
         </View>

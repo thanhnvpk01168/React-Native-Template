@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, BackHandler } from "react-native"
+import { SvgComponent } from '~/assets/svgIcon';
 import { deviceH, deviceW } from '~/common/Constants';
 import LazyImage from '~/components/image/LazyImage';
+import { SvgIcon } from '~/components/svgIcon/SvgIconComponent';
 
 export default function HomeScreen({ navigation }) {
     useEffect(() => {
@@ -30,6 +32,7 @@ export default function HomeScreen({ navigation }) {
         };
     }, []);
 
+
     return (
         <View style={styles.main}>
             <View style={{ ...StyleSheet.absoluteFillObject }}>
@@ -39,12 +42,15 @@ export default function HomeScreen({ navigation }) {
                     resizeMode='cover'
                 />
             </View>
+            <SvgIcon source={SvgComponent.close_x} color='red' size={20} />
         </View>
     )
 }
 const styles = StyleSheet.create({
     main: {
         flex: 1,
-        backgroundColor: 'rgba(1,1,1,0.2)'
+        backgroundColor: 'rgba(1,1,1,0.2)',
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })

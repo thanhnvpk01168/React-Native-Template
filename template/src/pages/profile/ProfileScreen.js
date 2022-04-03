@@ -1,17 +1,20 @@
 import { Portal } from '@gorhom/portal';
 import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { BackHandler, Image, Pressable as PressAble, ScrollView, StyleSheet, TextInput, View } from "react-native"
+import { BackHandler, Image, Pressable as PressAble, ScrollView, StyleSheet, TextInput, View, TouchableOpacity } from "react-native"
 import { EventRegister } from 'react-native-event-listeners';
 import { useSharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { IMAGES } from '~/assets/images';
 import { deviceH, deviceW } from '~/common/Constants';
 import { changeLanguageApp, showToast } from '~/common/method/Method';
+import { ActionSheet } from '~/components/actionSheet';
 import DropDown from '~/components/dropDown/DropDown';
 import LazyImage from '~/components/image/LazyImage';
 import { Modal } from '~/components/modal';
 import OTP from '~/components/otp/OTP';
+import ReadMore from '~/components/readMore/ReadMore';
+import { SwipeItem } from '~/components/swipe';
 import { SwitchSameIOS } from '~/components/switch';
 import { Text } from '~/components/text';
 import { translate } from '~/translations/i18n';
@@ -28,6 +31,7 @@ export default function ProfileScreen({ navigation }) {
     const refDrop = useRef();
     const refOTP = useRef();
     const refModal = useRef();
+    const refActionSheet = useRef();
 
     useEffect(() => {
         let backHandler = null;
@@ -61,9 +65,9 @@ export default function ProfileScreen({ navigation }) {
             <Portal>
                 <Image
                     source={IMAGES.black_hole}
-                    style={{ position: 'absolute', top: 0, right: 0, width: 100, height: 100, resizeMode: 'contain' }} />
+                    style={{ position: 'absolute', top: 0, right: 0, width: 100, height: 100, resizeMode: 'contain', opacity: 0.1 }} />
             </Portal>
-            <ScrollView style={{ flex: 1, marginBottom: 55 + insets.bottom, paddingTop: deviceH / 6 }}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1, paddingTop: insets.top }}>
 
                 <View style={{ marginTop: 10, paddingHorizontal: 10 }}>
                     <Text>{translate(KeyTranslate.dropdown)}</Text>
@@ -120,6 +124,20 @@ export default function ProfileScreen({ navigation }) {
                 <PressAble
                     style={{ alignSelf: 'center', backgroundColor: 'green', paddingHorizontal: 10, paddingVertical: 5, marginTop: 10, borderRadius: 5 }}
                     onPress={() => {
+                        refActionSheet.current.open();
+                    }}>
+                    <Text style={{ color: 'white' }}>Open action sheet</Text>
+                </PressAble>
+                <PressAble
+                    style={{ alignSelf: 'center', backgroundColor: 'green', paddingHorizontal: 10, paddingVertical: 5, marginTop: 10, borderRadius: 5 }}
+                    onPress={() => {
+                        navigation.navigate("MessageScreen")
+                    }}>
+                    <Text style={{ color: 'white' }}>test navigate</Text>
+                </PressAble>
+                <PressAble
+                    style={{ alignSelf: 'center', backgroundColor: 'green', paddingHorizontal: 10, paddingVertical: 5, marginTop: 10, borderRadius: 5 }}
+                    onPress={() => {
                         showToast({
                             content: toastContent.value,
                             contentStyle: { color: 'black' },
@@ -129,12 +147,53 @@ export default function ProfileScreen({ navigation }) {
                     }}>
                     <Text style={{ color: 'white' }}>{translate(KeyTranslate.show_toast_with_close_button)}</Text>
                 </PressAble>
-                <View style={{ width: deviceW, justifyContent: 'center', alignItems: 'center',marginVertical:30 }}>
+                <View style={{ width: deviceW, justifyContent: 'center', alignItems: 'center', marginVertical: 30 }}>
                     <SwitchSameIOS
                         onChange={(e) => { }} />
                 </View>
 
                 <FlyTo />
+
+                <View style={{ borderWidth: 50 }}>
+                    <ReadMore numberOfLine={5}>
+                        Due to breaking changes in react-native, the version given in the left column (and higher versions) of react-native-svg only supports the react-native version in the right column (and higher versions, if possible).
+
+                        It is recommended to use the version of react given in the peer dependencies of the react-native version you are using.
+
+                        The latest version of react-native-svg should always work in a clean react-native project.
+                    </ReadMore>
+                </View>
+                <ActionSheet ref={refActionSheet}>
+                    <View style={{ width: '100%', backgroundColor: 'orange', paddingBottom: insets.bottom, alignSelf: 'center' }}>
+                        <TouchableOpacity
+                            activeOpacity={1}
+                            onPress={() => {
+                                refActionSheet.current?.close();
+                            }}>
+                            <Text>action sheet</Text>
+                            <Text>action sheet</Text>
+                            <Text>action sheet</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ActionSheet>
+
+                <View style={{ backgroundColor: 'red', width: deviceW - 10, height: 100, justifyContent: "center", alignItems: 'center', alignSelf: 'center', marginBottom: 300 }}>
+                    <SwipeItem
+                        buttonRight={
+                            <TouchableOpacity style={{ width: 250, height: 100, borderWidth: 1, position: 'absolute', right: 0 }}>
+                                <Text>buttonRight</Text>
+                            </TouchableOpacity>
+                        }
+                        maxWidthButtonRight={250}
+                        styleItem={{
+                            width: deviceW - 10,
+                            backgroundColor: 'orange',
+                            height: 100,
+                        }}
+                    >
+                        <Text>Item 1</Text>
+                    </SwipeItem>
+                </View>
 
                 {
                     Array(50).fill("0").map((e, i) => {
@@ -145,13 +204,13 @@ export default function ProfileScreen({ navigation }) {
                 }
 
             </ScrollView>
-            <View style={{ position: 'absolute', top: 0, width: deviceW, height: insets.top }}>
+            {/* <View style={{ position: 'absolute', top: 0, width: deviceW, height: insets.top }}>
                 <LazyImage
                     source={{ uri: 'https://2.bp.blogspot.com/-B2AIu6n6kTE/XJkQCZVyogI/AAAAAAAAC74/hQbH-HbF0KsLBjAgCdzFguG6aK56KxmGACLcBGAs/s1600/nature%2Bwallpaper%2B4.jpg' }}
                     style={{ width: deviceW, height: insets.top }}
                     resizeMode={"cover"}
                 />
-            </View>
+            </View> */}
             <Modal
                 backdropColor={"rgba(1,1,1,0.3)"}
                 hasBackdrop

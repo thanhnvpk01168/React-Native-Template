@@ -6,6 +6,7 @@ import SplashScreen from 'react-native-splash-screen';
 
 import BottomNavigation from './BottomNavigation';
 import HomeScreen from '../pages/home/HomeScreen';
+import MessageScreen from '~/pages/message/MessageScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,7 +33,7 @@ export default function AppNavigation() {
         }}>
 
         <Stack.Screen name="BottomNavigation" component={BottomNavigation} />
-        {/* <Stack.Screen name="HomeScreen" component={HomeScreen} /> */}
+        <Stack.Screen name="MessageScreen" component={MessageScreen} />
 
       </Stack.Navigator>
     </NavigationContainer>
