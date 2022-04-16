@@ -13,6 +13,7 @@ import AppModeComponent from '~/components/appMode/AppModeComponent';
 import LoadingApp from '~/components/loadingApp/LoadingApp';
 import { Provider } from 'react-redux';
 import store from '~/store/store';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
 if (!isIos) {
@@ -45,7 +46,7 @@ if (isIos) {
 
 export default function App() {
   return (
-    <>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <StatusBar
         translucent
         backgroundColor="transparent"
@@ -63,9 +64,9 @@ export default function App() {
           </I18nextProvider>
         </Provider>
       </SafeAreaProvider>
-      <AppModeComponent/>
+      <AppModeComponent />
       <LoadingApp />
-    </>
+    </GestureHandlerRootView>
   );
 };
 
