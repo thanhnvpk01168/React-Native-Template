@@ -44,9 +44,9 @@ const BuildNavBottom = memo(({ navigation }) => {
         onPress={() => {
           _navigate("ProfileScreen", 2);
         }}>
-        <Text style={tabSelected == 2 && { color: 'green' }}>
+        <TextTranslate style={tabSelected == 2 && { color: 'green' }}>
           {KeyTranslate.profile}
-        </Text>
+        </TextTranslate>
       </PressAble>
 
     </View>
