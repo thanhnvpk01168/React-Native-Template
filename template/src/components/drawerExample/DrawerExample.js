@@ -2,9 +2,10 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import React, { useRef } from 'react'
 import { DrawerLayout } from 'react-native-gesture-handler';
 import LazyImage from '../image/LazyImage';
-import { deviceH, deviceW } from '~/common/Constants';
+import { COLORS, deviceH, deviceW } from '~/common/Constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '../text';
+import { showFlashMsg } from '~/common/method/Method';
 
 const drawerWidth = deviceW * 0.7;
 export default function DrawerExample({ navigation }) {
@@ -45,9 +46,44 @@ export default function DrawerExample({ navigation }) {
                             <Text>Open drawer</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <TouchableOpacity onPress={() => {
+                        navigation.goBack()
+                    }}>
                         <View style={{ width: 55, height: 55, borderRadius: 50, borderWidth: 5, borderColor: 'red', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }} >
                             <Text style={{ textAlign: 'center' }}>go back</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        showFlashMsg({
+                            backgroundColor: COLORS.successBg,
+                            message: "Writes your message success here, Writes your message success here, Writes your message success here",
+                            textStyle: { color: COLORS.successText, textAlign: 'center' }
+                        })
+                    }}>
+                        <View style={{ width: 55, height: 55, borderRadius: 50, borderWidth: 5, borderColor: 'red', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }} >
+                            <Text style={{ textAlign: 'center' }}>success</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        showFlashMsg({
+                            backgroundColor: COLORS.errorBg,
+                            message: "Writes your message error here",
+                            textStyle: { color: COLORS.successText, textAlign: 'center' }
+                        })
+                    }}>
+                        <View style={{ width: 55, height: 55, borderRadius: 50, borderWidth: 5, borderColor: 'red', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }} >
+                            <Text style={{ textAlign: 'center' }}>error</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => {
+                        showFlashMsg({
+                            backgroundColor: COLORS.warnBg,
+                            message: "Writes your message warn here",
+                            textStyle: { color: COLORS.successText, textAlign: 'center' }
+                        })
+                    }}>
+                        <View style={{ width: 55, height: 55, borderRadius: 50, borderWidth: 5, borderColor: 'red', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }} >
+                            <Text style={{ textAlign: 'center' }}>warning</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

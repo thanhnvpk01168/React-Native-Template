@@ -14,6 +14,8 @@ import LoadingApp from '~/components/loadingApp/LoadingApp';
 import { Provider } from 'react-redux';
 import store from '~/store/store';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import FlashMessage from '~/components/toast/FlashMessage';
+import { AppMode, configBuildModes } from '~/common/ConfigApp';
 
 
 if (!isIos) {
@@ -59,12 +61,13 @@ export default function App() {
               <PortalProvider>
                 <AppNavigation />
                 <ToastNormal />
+                <FlashMessage />
               </PortalProvider>
             </Suspense>
           </I18nextProvider>
         </Provider>
       </SafeAreaProvider>
-      <AppModeComponent />
+      {AppMode === configBuildModes.DEV && <AppModeComponent />}
       <LoadingApp />
     </GestureHandlerRootView>
   );
