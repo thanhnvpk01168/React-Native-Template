@@ -13,7 +13,11 @@ function TextComponent(props) {
         <TextRN
             allowFontScaling={false}
             {...rest}
-            style={{ color: "rgb(28, 28, 30)", ...style }}>
+            style={
+                Array.isArray(style)
+                    ? [{ color: "rgb(28, 28, 30)" }, ...style]
+                    : [{ color: "rgb(28, 28, 30)" }, style]
+            }>
 
             {children}
 

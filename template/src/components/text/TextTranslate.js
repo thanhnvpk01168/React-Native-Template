@@ -17,7 +17,11 @@ function TextTranslateComponent(props) {
     <TextRN
       allowFontScaling={false}
       {...rest}
-      style={{ color: "black", ...style }}>
+      style={
+        Array.isArray(style)
+          ? [{ color: 'black' }, ...style]
+          : [{ color: 'black' }, style]
+      }>
 
       {t(children)}
 
