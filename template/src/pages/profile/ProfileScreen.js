@@ -7,6 +7,7 @@ import { useSharedValue } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { IMAGES } from '~/assets/images';
 import { deviceH, deviceW } from '~/common/Constants';
+import { useSelector } from '~/common/hooks';
 import { changeLanguageApp, showToast } from '~/common/method/Method';
 import { ActionSheet } from '~/components/actionSheet';
 import DropDown from '~/components/dropDown/DropDown';
@@ -25,6 +26,8 @@ import FlyTo from './FlyTo';
 export default function ProfileScreen({ navigation }) {
     const insets = useSafeAreaInsets();
     const { i18n } = useTranslation();
+
+    const reduxStore = useSelector(state => state);
 
     const toastContent = useSharedValue("empty");
 
@@ -135,6 +138,7 @@ export default function ProfileScreen({ navigation }) {
                     }}>
                     <Text style={{ color: 'white' }}>test navigate</Text>
                 </PressAble>
+                <Text>{JSON.stringify(reduxStore)}</Text>
                 <PressAble
                     style={{ alignSelf: 'center', backgroundColor: 'green', paddingHorizontal: 10, paddingVertical: 5, marginTop: 10, borderRadius: 5 }}
                     onPress={() => {
@@ -168,7 +172,7 @@ export default function ProfileScreen({ navigation }) {
                         <TouchableOpacity
                             activeOpacity={1}
                             onPress={() => {
-                                refActionSheet.current?.close();
+                                // refActionSheet.current?.close();
                             }}>
                             <Text>action sheet</Text>
                             <Text>action sheet</Text>

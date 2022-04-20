@@ -6,11 +6,15 @@ import { COLORS, deviceH, deviceW } from '~/common/Constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '../text';
 import { showFlashMsg } from '~/common/method/Method';
+import { useDispatch } from 'react-redux';
+import { increment } from '~/store/store';
 
 const drawerWidth = deviceW * 0.7;
 export default function DrawerExample({ navigation }) {
     const insets = useSafeAreaInsets();
     const refDrawer = useRef();
+
+    const dispatch = useDispatch();
 
     return (
         <View style={{ flex: 1 }}>
@@ -86,6 +90,15 @@ export default function DrawerExample({ navigation }) {
                             <Text style={{ textAlign: 'center' }}>warning</Text>
                         </View>
                     </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => {
+                        dispatch(increment());
+                    }}>
+                        <View style={{ width: 55, height: 55, borderRadius: 50, borderWidth: 5, borderColor: 'red', backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }} >
+                            <Text style={{ textAlign: 'center' }}>dispatch</Text>
+                        </View>
+                    </TouchableOpacity>
+
                 </View>
             </DrawerLayout>
         </View>
