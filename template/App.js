@@ -8,7 +8,6 @@ import { PortalProvider } from '@gorhom/portal';
 import AppNavigation from './src/navigation/AppNavigation';
 import { isIos } from './src/common/Constants';
 import { i18n } from './src/translations/i18n'
-import ToastNormal from './src/components/toast/ToastNormal';
 import AppModeComponent from '~/components/appMode/AppModeComponent';
 import LoadingApp from '~/components/loadingApp/LoadingApp';
 import { Provider } from 'react-redux';
@@ -60,7 +59,6 @@ export default function App() {
             <Suspense fallback={null}>
               <PortalProvider>
                 <AppNavigation />
-                <ToastNormal />
                 <FlashMessage />
               </PortalProvider>
             </Suspense>

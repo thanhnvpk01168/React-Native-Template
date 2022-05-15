@@ -1,18 +1,19 @@
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Portal } from '@gorhom/portal'
 import { EventRegister } from 'react-native-event-listeners'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import { COLORS, deviceW } from '~/common/Constants'
+import { COLORS, deviceH, deviceW } from '~/common/Constants'
 import { Text } from '../text'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 
 let timeout = null;
+const maxY = -(deviceH / 3 + 10);
 export default function FlashMessage() {
 
     const insets = useSafeAreaInsets();
-    const translateYValue = useSharedValue(-100 - insets.top);
+    const translateYValue = useSharedValue(maxY);
     const [state, setState] = useState({
         backgroundColor: COLORS.successBg,
         message: "Writes your message here",
@@ -41,7 +42,7 @@ export default function FlashMessage() {
 
             translateYValue.value = withSpring(0, { damping: 20 });
             timeout = setTimeout(() => {
-                translateYValue.value = withSpring(-100 - insets.top, { damping: 12 });
+                translateYValue.value = withSpring(maxY, { damping: 12 });
             }, 3000);
 
         });
@@ -54,11 +55,14 @@ export default function FlashMessage() {
     return (
         <Portal>
             <Animated.View
+                pointerEvents={'box-none'}
                 style={[
-                    { width: deviceW, backgroundColor: state.backgroundColor, position: 'absolute', top: 0, paddingTop: insets.top + 5, alignItems: 'center', paddingBottom: 5 },
+                    { width: deviceW, height: deviceH / 3, position: 'absolute' },
                     animatedTranslateY
                 ]}>
-                <Text style={state.textStyle}>{state.message}</Text>
+                <View style={{ width: deviceW, backgroundColor: state.backgroundColor, alignItems: 'center', paddingTop: insets.top + 5, paddingBottom: 5 }}>
+                    <Text style={state.textStyle}>{state.message}</Text>
+                </View>
             </Animated.View>
         </Portal>
     )
