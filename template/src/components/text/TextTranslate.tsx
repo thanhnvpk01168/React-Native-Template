@@ -2,16 +2,15 @@ import { Text as TextRN } from 'react-native'
 import React, { memo } from 'react'
 import equals from 'react-fast-compare';
 import { useTranslation } from 'react-i18next';
+import { TextProps } from './type';
 
-function TextTranslateComponent(props) {
+function TextTranslateComponent({
+  children,
+  style = {},
+  ...rest
+}: TextProps) {
 
   const { t } = useTranslation();
-
-  const {
-    children,
-    style = {},
-    ...rest
-  } = props;
 
   return (
     <TextRN

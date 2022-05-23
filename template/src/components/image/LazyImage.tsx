@@ -10,10 +10,19 @@ import { StyleSheet, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { SvgComponent } from '~/assets/svgIcon'
 import { SvgIcon } from '../svgIcon/SvgIconComponent'
+import { FastImageProps } from './type'
 
-export default function LazyImage({ source, style, resizeMode }) {
+export default function LazyImage({
+    source,
+    style = {},
+    resizeMode = 'contain'
+}: FastImageProps) {
     return (
-        <View style={{ ...style }}>
+        <View style={
+            Array.isArray(style)
+                ? [...style]
+                : [style]
+        }>
             <View
                 style={[
                     StyleSheet.absoluteFillObject,
@@ -24,7 +33,7 @@ export default function LazyImage({ source, style, resizeMode }) {
             <FastImage
                 source={source}
                 style={style}
-                resizeMode={typeof (resizeMode) === 'string' ? resizeMode : FastImage.resizeMode.contain}
+                resizeMode={resizeMode}
             />
         </View>
     )

@@ -1,13 +1,12 @@
 import { Text as TextRN } from 'react-native'
 import React from 'react'
+import { TextProps } from './type';
 
-function TextComponent(props) {
-
-    const {
-        children,
-        style = {},
-        ...rest
-    } = props;
+function TextComponent({
+    children,
+    style = {},
+    ...rest
+}: TextProps) {
 
     return (
         <TextRN
