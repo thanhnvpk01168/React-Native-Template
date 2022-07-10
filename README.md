@@ -6,5 +6,5 @@ React-Native-Template
 ## :arrow_forward: Usage
 
 ```sh
-npx react-native init MyApp --template https://github.com/thanhnvpk01168/React-Native-Template.git
+npx react-native init MyApp --template https://github.com/thanhnvpk01168/React-Native-Template/tree/RN_0_68_2.git
 ```
