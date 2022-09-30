@@ -1,7 +1,7 @@
 ## Welcome to the React-Native-Template
 React-Native-Template
 
-## Current version: 0.69.5
+## Current version: 0.69.6
 
 ## :arrow_forward: Usage
 
