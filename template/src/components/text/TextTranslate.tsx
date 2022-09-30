@@ -14,7 +14,6 @@ function TextTranslateComponent({
 
   return (
     <TextRN
-      allowFontScaling={false}
       {...rest}
       style={
         Array.isArray(style)

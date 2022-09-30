@@ -1,8 +1,11 @@
 package com.projectname;
 
+import android.os.Bundle;
+
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
+import org.devio.rn.splashscreen.SplashScreen;
 
 public class MainActivity extends ReactActivity {
 
@@ -23,6 +26,14 @@ public class MainActivity extends ReactActivity {
   @Override
   protected ReactActivityDelegate createReactActivityDelegate() {
     return new MainActivityDelegate(this, getMainComponentName());
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    setTheme(R.style.AppTheme); // Now set the theme from Splash to App before setContentView
+    setContentView(R.layout.launch_screen); // Then inflate the new view
+    SplashScreen.show(this); // Now show the splash screen. Hide it later in JS
+    super.onCreate(null);
   }
 
   public static class MainActivityDelegate extends ReactActivityDelegate {
