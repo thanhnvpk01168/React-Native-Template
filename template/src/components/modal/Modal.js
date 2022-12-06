@@ -9,23 +9,19 @@
 
 refModal.current.methodName();(methodName in useImperativeHandle)
 */
-import React, { forwardRef, memo, useImperativeHandle, useCallback } from 'react';
+import React, { forwardRef, memo, useImperativeHandle, useCallback, useMemo } from 'react';
 import { StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import isEqual from 'react-fast-compare';
 import { Portal } from '@gorhom/portal';
 import Animated, { interpolate, useAnimatedStyle, useDerivedValue, useSharedValue, withSpring } from 'react-native-reanimated';
-import { deviceH, deviceW } from '~/common/Constants';
-
-let maxHeight = deviceH;
+import { useLayoutDimensions } from '~/common/hooks';
 
 const inputTranslateY = [0, 90];
-const outputTranslateY = [0, maxHeight];
 
 const inputOpacity = [0, 90];
 const outputOpacity = [0.6, 0];
 
 const inputTranslateX = [0, 90, 100];
-const outputTranslateX = [0, 0, deviceW];
 
 function ModalComponent({
     children,
@@ -33,11 +29,16 @@ function ModalComponent({
     backdropColor = "rgba(1,1,1,0.3)",
     hasBackdrop = true,
 }, ref) {
+    const layoutDimensions = useLayoutDimensions();
     const progress = useSharedValue(1000);
+
+    const outputTranslateY = useMemo(() => [0, layoutDimensions.height], [layoutDimensions.height]);
+    const outputTranslateX = useMemo(() => [0, 0, layoutDimensions.width], [layoutDimensions.width]);
+
     //translate Y
     const translateYDerived = useDerivedValue(() => {
         return interpolate(progress.value, inputTranslateY, outputTranslateY, 'clamp');
-    }, []);
+    }, [outputTranslateY]);
     const animTranslateYStyle = useAnimatedStyle(() => {
         return {
             transform: [
@@ -51,7 +52,7 @@ function ModalComponent({
     }, []);
     const translateXDerived = useDerivedValue(() => {
         return interpolate(progress.value, inputTranslateX, outputTranslateX, 'clamp');
-    }, []);
+    }, [outputTranslateX]);
     const animOpacityStyle = useAnimatedStyle(() => {
         return {
             backgroundColor: `rgba(1,1,1,${opacityDerived.value})`,

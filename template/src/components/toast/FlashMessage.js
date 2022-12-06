@@ -1,17 +1,18 @@
 import { View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Portal } from '@gorhom/portal'
 import { EventRegister } from 'react-native-event-listeners'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import { COLORS, deviceH, deviceW } from '~/common/Constants'
+import { COLORS } from '~/common/Constants'
 import { Text } from '../text'
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
+import { useLayoutDimensions } from '~/common/hooks'
 
 let timeout = null;
-const maxY = -(deviceH / 3 + 10);
 export default function FlashMessage() {
-
+    const layoutDimensions = useLayoutDimensions();
+    const maxY = useMemo(() => -(layoutDimensions.height / 3 + 10), [layoutDimensions.height]);
     const insets = useSafeAreaInsets();
     const translateYValue = useSharedValue(maxY);
     const [state, setState] = useState({
@@ -57,10 +58,10 @@ export default function FlashMessage() {
             <Animated.View
                 pointerEvents={'box-none'}
                 style={[
-                    { width: deviceW, height: deviceH / 3, position: 'absolute' },
+                    { width: layoutDimensions.width, height: layoutDimensions.height / 3, position: 'absolute' },
                     animatedTranslateY
                 ]}>
-                <View style={{ width: deviceW, backgroundColor: state.backgroundColor, alignItems: 'center', paddingTop: insets.top + 5, paddingBottom: 5 }}>
+                <View style={{ width: layoutDimensions.width, backgroundColor: state.backgroundColor, alignItems: 'center', paddingTop: insets.top + 5, paddingBottom: 5 }}>
                     <Text style={state.textStyle}>{state.message}</Text>
                 </View>
             </Animated.View>

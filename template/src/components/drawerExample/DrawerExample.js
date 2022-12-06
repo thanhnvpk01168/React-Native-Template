@@ -1,18 +1,21 @@
 import { StyleSheet, View, TouchableOpacity } from 'react-native'
-import React, { useRef } from 'react'
+import React, { useMemo, useRef } from 'react'
 import { DrawerLayout } from 'react-native-gesture-handler';
 import LazyImage from '../image/LazyImage';
-import { COLORS, deviceH, deviceW } from '~/common/Constants';
+import { COLORS } from '~/common/Constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '../text';
 import { showFlashMsg } from '~/common/method/Method';
 import { useDispatch } from 'react-redux';
 import { increment } from '~/store/store';
+import { useLayoutDimensions } from '~/common/hooks';
 
-const drawerWidth = deviceW * 0.7;
 export default function DrawerExample({ navigation }) {
+    const layoutDimensions = useLayoutDimensions();
     const insets = useSafeAreaInsets();
     const refDrawer = useRef();
+
+    const drawerWidth = useMemo(() => layoutDimensions.width * 0.7, [layoutDimensions.width])
 
     const dispatch = useDispatch();
 
@@ -41,7 +44,7 @@ export default function DrawerExample({ navigation }) {
                     <View style={{ ...StyleSheet.absoluteFillObject }}>
                         <LazyImage
                             source={{ uri: "https://www.desktopbackground.org/download/480x800/2015/10/14/1026365_download-for-android-phone-backgrounds-dotted-wallpapers-from_960x800_h.jpg" }}
-                            style={{ width: deviceW, height: deviceH }}
+                            style={{ width: layoutDimensions.width, height: layoutDimensions.height }}
                             resizeMode='cover'
                         />
                     </View>

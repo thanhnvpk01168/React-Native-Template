@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { StatusBar, StyleSheet, UIManager, View } from 'react-native';
+import { StatusBar, UIManager, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import KeyboardManager from 'react-native-keyboard-manager';
 import { I18nextProvider } from 'react-i18next';
@@ -8,13 +8,13 @@ import { PortalProvider } from '@gorhom/portal';
 import AppNavigation from './src/navigation/AppNavigation';
 import { isIos } from './src/common/Constants';
 import { i18n } from './src/translations/i18n'
-import AppModeComponent from '~/components/appMode/AppModeComponent';
 import LoadingApp from '~/components/loadingApp/LoadingApp';
 import { Provider } from 'react-redux';
 import store from '~/store/store';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import FlashMessage from '~/components/toast/FlashMessage';
-import { AppMode, configBuildModes } from '~/common/ConfigApp';
+import { GlobalVariants } from '~/common/GlobalVariants';
+import { EventRegister } from 'react-native-event-listeners';
 
 
 if (!isIos) {
@@ -47,27 +47,32 @@ if (isIos) {
 
 export default function App() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <StatusBar
-        translucent
-        backgroundColor="transparent"
-        // 'dark-content' or 'light-content'
-        barStyle={"dark-content"} />
-      <SafeAreaProvider>
-        <Provider store={store}>
-          <I18nextProvider i18n={i18n}>
-            <Suspense fallback={null}>
-              <PortalProvider>
-                <AppNavigation />
-                <FlashMessage />
-              </PortalProvider>
-            </Suspense>
-          </I18nextProvider>
-        </Provider>
-      </SafeAreaProvider>
-      {AppMode === configBuildModes.DEV && <AppModeComponent />}
-      <LoadingApp />
-    </GestureHandlerRootView>
+    <>
+      <StatusBar translucent backgroundColor={'transparent'} barStyle={"dark-content"} />
+      <View
+        onLayout={(e) => {
+          GlobalVariants.layoutWidth = e.nativeEvent.layout.width;
+          GlobalVariants.layoutHeight = e.nativeEvent.layout.height;
+          EventRegister.emitEvent("SET_SIZE_LAYOUT", e.nativeEvent.layout);
+        }}
+        style={{ flex: 1 }}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <SafeAreaProvider>
+            <Provider store={store}>
+              <I18nextProvider i18n={i18n}>
+                <Suspense fallback={null}>
+                  <PortalProvider>
+                    <AppNavigation />
+                    <FlashMessage />
+                  </PortalProvider>
+                </Suspense>
+              </I18nextProvider>
+            </Provider>
+          </SafeAreaProvider>
+          <LoadingApp />
+        </GestureHandlerRootView>
+      </View>
+    </>
   );
 };
 

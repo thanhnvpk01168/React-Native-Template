@@ -1,29 +1,20 @@
 import { useState, useEffect } from "react";
 import isEqual from "react-fast-compare";
-import { Dimensions } from "react-native";
-import { initialWindowMetrics } from "react-native-safe-area-context";
+import { EventRegister } from "react-native-event-listeners";
 import { useSelector as useReduxSelector } from 'react-redux';
+import { GlobalVariants } from "../GlobalVariants";
 
-import { deviceH, deviceW, isIos } from "../Constants";
-
-export function useWindowDimensions() {
-    const [windowDimensions, setWindowDimensions] = useState({ w: deviceW, h: deviceH });
-
+export function useLayoutDimensions() {
+    const [layoutDimensions, setLayoutDimensions] = useState({ "height": GlobalVariants.layoutHeight, "width": GlobalVariants.layoutWidth, "x": 0, "y": 0 });
     useEffect(() => {
-        const subscriptionD = Dimensions.addEventListener('change', ({ window: { width, height } }) => {
-            let w = Dimensions.get("window").width;
-            let h = Dimensions.get("window").height;
-            if (!isIos && width < height) {
-                h = initialWindowMetrics.frame.height + initialWindowMetrics.frame.y
-            }
-            setWindowDimensions({ w, h })
+        const listenerEvent = EventRegister.addEventListener('SET_SIZE_LAYOUT', (layout) => {
+            setLayoutDimensions({ ...layout })
         })
         return () => {
-            subscriptionD.remove();
-        };
+            EventRegister.removeEventListener(listenerEvent)
+        }
     }, []);
-
-    return windowDimensions;
+    return layoutDimensions;
 }
 
 export function useSelector(selector = () => { }) {

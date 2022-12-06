@@ -14,15 +14,16 @@ const refActionSheet = useRef();
 import React, { forwardRef, memo, useCallback, useImperativeHandle, useState } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
 import { Portal } from '@gorhom/portal';
-import { deviceH, deviceW } from '~/common/Constants';
 import Animated, { interpolate, useAnimatedStyle, useDerivedValue, useSharedValue, withSpring } from 'react-native-reanimated';
 import isEqual from 'react-fast-compare';
+import { useLayoutDimensions } from '~/common/hooks';
 
 const inputTranslateY = [0, 90];
 const inputBackgroundColor = [10, 90];
 const inputTranslateX = [90, 100];
 
 function ActionSheetComponent({ children }, ref) {
+    const layoutDimensions = useLayoutDimensions();
     const progress = useSharedValue(100);
     const [onLayout, setOnLayout] = useState({ height: 0, width: 0, x: 0, y: 0 });
 
@@ -35,8 +36,8 @@ function ActionSheetComponent({ children }, ref) {
     });
 
     const translateXDerived = useDerivedValue(() => {
-        return interpolate(progress.value, inputTranslateX, [0, deviceW], 'clamp');
-    });
+        return interpolate(progress.value, inputTranslateX, [0, layoutDimensions.width], 'clamp');
+    }, [layoutDimensions.width]);
 
     const animTranslateYStyle = useAnimatedStyle(() => {
         return {
@@ -54,7 +55,7 @@ function ActionSheetComponent({ children }, ref) {
                 { translateX: translateXDerived.value }
             ]
         };
-    });
+    }, [translateXDerived]);
 
     const _open = useCallback(() => {
         progress.value = withSpring(0, { damping: 60, stiffness: 300 });
@@ -72,14 +73,13 @@ function ActionSheetComponent({ children }, ref) {
         <Portal>
             <TouchableWithoutFeedback onPress={_close}>
                 <Animated.View style={[
-                    { width: deviceW, height: deviceH, backgroundColor: 'red', position: 'absolute', justifyContent: 'flex-end' },
+                    { width: layoutDimensions.width, height: layoutDimensions.height, backgroundColor: 'red', position: 'absolute', justifyContent: 'flex-end' },
                     animOpacityStyle
                 ]}>
                     <TouchableWithoutFeedback
                         onLayout={(e) => {
                             const { height, width, x, y } = e.nativeEvent.layout;
                             setOnLayout({ height, width, x, y });
-                            _close()
                         }}>
                         <Animated.View style={animTranslateYStyle}>
                             {children}

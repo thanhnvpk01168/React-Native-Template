@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { EventRegister } from 'react-native-event-listeners'
-import { deviceH, deviceW } from '~/common/Constants'
+import { useLayoutDimensions } from '~/common/hooks';
 
 export default function LoadingApp() {
-
+    const layoutDimensions = useLayoutDimensions();
     const [showLoading, setShowLoading] = useState(false);
-    
+
     useEffect(() => {
         const listEventShowToast = EventRegister.addEventListener("show_loading_app", (status) => {
             setShowLoading(status);
@@ -18,7 +18,7 @@ export default function LoadingApp() {
 
     return (
         showLoading ?
-            <View style={styles.main}>
+            <View style={[styles.main, { width: layoutDimensions.width, height: layoutDimensions.height }]}>
                 <ActivityIndicator size={'large'} color={"orange"} />
             </View>
             :
@@ -28,12 +28,10 @@ export default function LoadingApp() {
 
 const styles = StyleSheet.create({
     main: {
-        width: deviceW,
-        height: deviceH,
         position: 'absolute',
         top: 0,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "rgba(255,255,255,0.2)",
+        backgroundColor: "rgba(255,255,255,0.2)"
     }
 })

@@ -10,8 +10,10 @@ import HomeScreen from '~/pages/home/HomeScreen';
 import { KeyTranslate } from '~/translations/KeyTranslate';
 import { EventRegister } from 'react-native-event-listeners';
 import { Text, TextTranslate } from '~/components/text';
+import { useLayoutDimensions } from '~/common/hooks';
 
 const BuildNavBottom = memo(({ navigation }) => {
+  const layoutDimensions = useLayoutDimensions();
   const insets = useSafeAreaInsets();
   const [tabSelected, setTabSelected] = useState(1)
   _navigate = (screenName, tabNumber) => {
@@ -27,7 +29,7 @@ const BuildNavBottom = memo(({ navigation }) => {
     }
   }, [])
   return (
-    <View style={[styles.main, { height: 55 + insets.bottom, paddingBottom: insets.bottom }]}>
+    <View style={[styles.main, { height: 55 + insets.bottom, paddingBottom: insets.bottom, width: layoutDimensions.width }]}>
 
       <PressAble
         style={styles.tab}
@@ -89,7 +91,6 @@ const styles = StyleSheet.create({
   main: {
     position: 'absolute',
     bottom: 0,
-    width: deviceW,
     backgroundColor: 'white',
     flexDirection: 'row',
     justifyContent: 'space-around',
