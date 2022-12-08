@@ -1,9 +1,12 @@
-import { ApiConstants } from "./APIConstants";
-import { callApi } from "./Helper";
+import axios from "axios";
+import { Platform } from "react-native";
+import { GlobalVariants } from "../GlobalVariants";
+import { ApiConstants, SERVER_URL } from "./APIConstants";
 
 export const headers = {
     "Content-Type": "application/json",
-    'Cache-Control': 'no-cache'
+    "Accept-Language": "en",
+    'x-platform': Platform.OS
 
 }
 export function updateHeader(params) {
@@ -12,39 +15,61 @@ export function updateHeader(params) {
     }
 }
 
-export const testAPI = async (data) => {
-    const config = {
-        endpoint: ApiConstants.VERIFY_OTP,
-        headers,
-        data: JSON.stringify({
-            OTP: "123123"
-        })
-    };
-    let resp = await callApi("post", config);
-    return resp;
+const updateHeaderWithNewToken = () => {
+    if (typeof (GlobalVariants.accessToken) === 'string' && GlobalVariants.accessToken?.length > 2) {
+        headers['Authorization'] = `Bearer ${GlobalVariants.accessToken}`
+    } else {
+        try {
+            delete headers.Authorization;
+        } catch (error) { }
+    }
 }
 
-export const authFb = async (data) => {
-    const config = {
-        endpoint: ApiConstants.AUTH_FB,
-        headers,
-        data: JSON.stringify({
-            access_token: "token",
-            code:"123123123"
-        })
-    };
-    let resp = await callApi("post", config);
-    return resp;
+const callAPI = async (options) => {
+    try {
+        options.url = SERVER_URL + options.endpoint
+        let resp = await axios(options);
+        return { status: true, resp: resp }
+    } catch (error) {
+        console.log("API error-->", options?.url)
+        console.log("API error", error)
+        return { status: false, error: error }
+    }
 }
 
-export const testRefreshToken = async (data) => {
-    const config = {
-        endpoint: ApiConstants.VERIFY_OTP,
-        headers,
-        data: JSON.stringify({
-            OTP: "123123"
-        })
+class APICommonService {
+    accountLogin = async (params = {}, newHeaders = {}) => {
+        updateHeaderWithNewToken();
+        let options = {
+            method: "post",
+            endpoint: ApiConstants.VERIFY_OTP,
+            headers: {
+                ...headers,
+                ...newHeaders
+            },
+            data: JSON.stringify(params)
+        };
+        let resp = await callAPI(options)
+        return resp
     };
-    let resp = await callApi("post", config);
-    return resp;
+    checkNetwork = async () => {
+        const config = {
+            timeout: 4000,
+        }
+        config.method = "get";
+        config.headers = {
+            'Cache-Control': 'no-cache',
+        };
+        config.withCredentials = false;
+        config.url = ""
+        try {
+            let resp = await axios(config);
+            return { status: true, resp: resp }
+        } catch (error) {
+            return { status: false, error: error }
+        }
+    }
 }
+
+export default new APICommonService();
+
